@@ -1,0 +1,16 @@
+.test-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.test-box {
+  width: 300px;
+}
+
+.test-input {
+  width: 100%;
+}

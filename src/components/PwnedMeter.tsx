@@ -61,10 +61,13 @@ const PwnMeter = (props: propsTypes) => {
         ${result?.score === 4 && "great-password"}
     `}
       >
+        {/* 4 bars indicating password strength */}
         <div className={`pwn-bar ${result?.score == 0 || result?.score ? "active" : ""}`}></div>
         <div className={`pwn-bar ${result?.score && result?.score > 1 ? "active" : ""}`}></div>
         <div className={`pwn-bar ${result?.score && result?.score > 2 ? "active" : ""}`}></div>
         <div className={`pwn-bar ${result?.score && result?.score > 3 ? "active" : ""}`}></div>
+
+        {/* tooltip */}
         {!props.disableTooltip && (
           <img
             src={informationCircleIcon}
@@ -80,8 +83,8 @@ const PwnMeter = (props: propsTypes) => {
       </div>
 
       {/* warning for critical passwords */}
-      <p className="pwn-warning">
-        {result?.feedback?.warning && !props.hideWarning && (
+      <p className="pwn-warning" hidden={props.hideWarning}>
+        {result?.feedback?.warning && (
           <>
             {result.feedback.warning.includes("pwned") &&
               "Warning! This password was found in a data breach and is not secure."}

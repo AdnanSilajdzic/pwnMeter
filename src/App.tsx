@@ -8,8 +8,12 @@ function App() {
 
   return (
     <>
-      <input type="text" onChange={(e) => setPass(e.target.value)} />
-      <PwnMeter password={pass} callback={(response: ZxcvbnResult) => console.log(response)} />
+      <div className="test-body">
+        <div className="test-box">
+          <input type="text" className="test-input" onChange={(e) => setPass(e.target.value)} />
+          <PwnMeter password={pass} callback={(response: ZxcvbnResult) => console.log(response)} />
+        </div>
+      </div>
     </>
   );
 }
