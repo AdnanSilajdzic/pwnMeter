@@ -5,6 +5,8 @@
 .env
 .eslint.config.js
 .DS_Store
+.git
+.gitignore
 
 index.html
 tsconfig.json
@@ -12,3 +14,19 @@ tsconfig.node.json
 tsup.config.ts
 vite.config.ts
 tsconfig.bundle.json
+tsconfig.app.json
+eslint.config.js
+
+# Development files
+package-lock.json
+*.log
+*.tgz
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+Thumbs.db

@@ -20,6 +20,7 @@ A modern React component for real-time password strength visualization and secur
 - **Disable HaveIBeenPwned checking** (`disablePwnd` prop) - Skip breach database checks
 - **Custom debounce timing** (`debounceTime` prop) - Control API call frequency
 - **Advanced debounce control** (`debounce` prop) - Enable/disable input debouncing
+- **Multi-language support** (`language` prop) - Support for languages beyond English (French, German, Spanish, etc.)
 
 ## Installation
 
