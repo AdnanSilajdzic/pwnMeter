@@ -15,9 +15,10 @@ A modern React component for real-time password strength visualization and secur
 - **Callback support** for handling strength changes
 - **Tooltip toggle** to show/hide detailed feedback
 - **Warning visibility control** to hide breach warnings
+- **Disable HaveIBeenPwned checking** - Skip breach database checks
+- **UsePwnd Hook** - Accessing the PwnMeter callback through a hook instead of a component, in case you just need the data and not the component
 
 ### 🚧 Planned Features
-- **Disable HaveIBeenPwned checking** (`disablePwnd` prop) - Skip breach database checks
 - **Custom debounce timing** (`debounceTime` prop) - Control API call frequency
 - **Advanced debounce control** (`debounce` prop) - Enable/disable input debouncing
 - **Multi-language support** (`language` prop) - Support for languages beyond English (French, German, Spanish, etc.)
@@ -99,7 +100,7 @@ function App() {
 |------|------|---------|-------------|
 | `password` | `string` | **Required** | The password to analyze |
 | `callback` | `Function` | `undefined` | Callback function called with strength analysis results |
-| `disablePwnd` | `boolean` | `false` | ⚠️ *Coming soon* - Disable HaveIBeenPwned breach checking |
+| `disablePwnd` | `boolean` | `false` | Disable HaveIBeenPwned breach checking |
 | `debounce` | `boolean` | `true` | ⚠️ *Coming soon* - Enable/disable input debouncing |
 | `debounceTime` | `number` | `300` | ⚠️ *Coming soon* - Debounce delay in milliseconds |
 | `disableTooltip` | `boolean` | `false` | Hide the information tooltip |

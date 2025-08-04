@@ -1,12 +1,8 @@
-import { useDeferredValue, useEffect, useState } from "react";
+import { useState } from "react";
 import PasswordTooltip from "./PasswordTooltip";
 import informationCircleIcon from "../assets/informationCircle.svg";
 
-import { matcherPwnedFactory } from "@zxcvbn-ts/matcher-pwned";
-import { zxcvbnAsync, zxcvbnOptions, type ZxcvbnResult } from "@zxcvbn-ts/core";
-import * as zxcvbnCommonPackage from "@zxcvbn-ts/language-common";
-import * as zxcvbnEnPackage from "@zxcvbn-ts/language-en";
-import getVerboseFeedback from "../helpers/getVerboseFeedback";
+import usePwnMeter from "../hooks/usePwnMeter";
 
 type propsTypes = {
   password: string;
@@ -18,35 +14,14 @@ type propsTypes = {
   hideWarning?: boolean;
 };
 
-const matcherPwned = matcherPwnedFactory(fetch, zxcvbnOptions);
-// password strength calculations
-zxcvbnOptions.addMatcher("pwned", matcherPwned);
-const options = {
-  dictionary: {
-    ...zxcvbnCommonPackage.dictionary,
-    ...zxcvbnEnPackage.dictionary,
-  },
-  graphs: zxcvbnCommonPackage.adjacencyGraphs,
-  useLevenshteinDistance: true,
-};
-zxcvbnOptions.setOptions(options);
-
 const PwnMeter = (props: propsTypes) => {
   const [showTooltip, setShowTooltip] = useState(false);
-  // zxcvbn logic
-  const usePasswordStrength = (password: string) => {
-    const [result, setResult] = useState<ZxcvbnResult | null>(null);
-    const deferredPassword = useDeferredValue(password);
-
-    useEffect(() => {
-      zxcvbnAsync(deferredPassword).then((response) => {
-        props.callback && props.callback({ ...response, verboseFeedback: getVerboseFeedback(response.feedback) });
-        setResult(response);
-      });
-    }, [deferredPassword]);
-
-    return result;
-  };
+  const { usePasswordStrength } = usePwnMeter({
+    callback: props.callback,
+    disablePwnd: props.disablePwnd,
+    debounce: props.debounce,
+    debounceTime: props.debounceTime,
+  });
 
   const result = usePasswordStrength(props.password.trim());
 
@@ -74,7 +49,10 @@ const PwnMeter = (props: propsTypes) => {
             className="pwn-information-icon"
             alt="suggestions"
             title="suggestions"
-            onClick={() => setShowTooltip(!showTooltip)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowTooltip(!showTooltip);
+            }}
           />
         )}
         {showTooltip && (
