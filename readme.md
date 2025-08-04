@@ -17,10 +17,9 @@ A modern React component for real-time password strength visualization and secur
 - **Warning visibility control** to hide breach warnings
 - **Disable HaveIBeenPwned checking** - Skip breach database checks
 - **UsePwnd Hook** - Accessing the PwnMeter callback through a hook instead of a component, in case you just need the data and not the component
+- **Custom debounce timing** - Control API call frequency
 
 ### 🚧 Planned Features
-- **Custom debounce timing** (`debounceTime` prop) - Control API call frequency
-- **Advanced debounce control** (`debounce` prop) - Enable/disable input debouncing
 - **Multi-language support** (`language` prop) - Support for languages beyond English (French, German, Spanish, etc.)
 
 ## Installation
@@ -94,6 +93,45 @@ function App() {
 }
 ```
 
+### Using the usePwnMeter Hook
+
+If you only need password strength data (not the UI), you can use the `usePwnMeter` hook directly:
+
+```tsx
+import React, { useState } from 'react';
+import usePwnMeter from 'pwnmeter/hooks/usePwnMeter';
+
+function PasswordStrengthInfo() {
+  const [password, setPassword] = useState('');
+  const { usePasswordStrength } = usePwnMeter({
+    // Optional: callback, debounceTime, disablePwnd, etc.
+    debounceTime: 500
+  });
+  const result = usePasswordStrength(password);
+
+  return (
+    <div>
+      <input
+        type="password"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+        placeholder="Enter your password"
+      />
+      {result && (
+        <div>
+          <p>Score: {result.score}/4</p>
+          <p>Feedback: {result.verboseFeedback.suggestions?.join(', ')}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+- The hook returns a `usePasswordStrength` function, which you call with the password string.
+- You can pass all the same options as the component (debounceTime, disablePwnd, etc.).
+- This is useful if you want to build your own UI or logic around password strength.
+
 ## Props
 
 | Prop | Type | Default | Description |
@@ -101,8 +139,7 @@ function App() {
 | `password` | `string` | **Required** | The password to analyze |
 | `callback` | `Function` | `undefined` | Callback function called with strength analysis results |
 | `disablePwnd` | `boolean` | `false` | Disable HaveIBeenPwned breach checking |
-| `debounce` | `boolean` | `true` | ⚠️ *Coming soon* - Enable/disable input debouncing |
-| `debounceTime` | `number` | `300` | ⚠️ *Coming soon* - Debounce delay in milliseconds |
+| `debounceTime` | `number` | `300` | Debounce delay in milliseconds |
 | `disableTooltip` | `boolean` | `false` | Hide the information tooltip |
 | `hideWarning` | `boolean` | `false` | Hide breach warning messages |
 

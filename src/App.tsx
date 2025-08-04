@@ -11,7 +11,7 @@ function App() {
       <div className="test-body">
         <div className="test-box">
           <input type="text" className="test-input" onChange={(e) => setPass(e.target.value)} />
-          <PwnMeter password={pass} callback={(response: ZxcvbnResult) => console.log(response)} />
+          <PwnMeter password={pass} callback={(response: ZxcvbnResult) => console.log(response)} hideWarning />
         </div>
       </div>
     </>

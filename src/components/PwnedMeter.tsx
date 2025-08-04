@@ -8,7 +8,6 @@ type propsTypes = {
   password: string;
   callback?: Function;
   disablePwnd?: boolean;
-  debounce?: boolean;
   debounceTime?: number;
   disableTooltip?: boolean;
   hideWarning?: boolean;
@@ -19,7 +18,6 @@ const PwnMeter = (props: propsTypes) => {
   const { usePasswordStrength } = usePwnMeter({
     callback: props.callback,
     disablePwnd: props.disablePwnd,
-    debounce: props.debounce,
     debounceTime: props.debounceTime,
   });
 

@@ -8,7 +8,6 @@ import getVerboseFeedback from "../helpers/getVerboseFeedback";
 type propsTypes = {
   callback?: Function;
   disablePwnd?: boolean;
-  debounce?: boolean;
   debounceTime?: number;
   disableTooltip?: boolean;
   hideWarning?: boolean;
@@ -38,11 +37,22 @@ const usePwnMeter = (props: propsTypes) => {
     const deferredPassword = useDeferredValue(password);
 
     useEffect(() => {
-      zxcvbnAsync(deferredPassword).then((response) => {
-        props.callback && props.callback({ ...response, verboseFeedback: getVerboseFeedback(response.feedback) });
-        setResult(response);
-      });
-    }, [deferredPassword]);
+      let timeout: ReturnType<typeof setTimeout> | undefined;
+      const run = () => {
+        zxcvbnAsync(deferredPassword).then((response) => {
+          props.callback && props.callback({ ...response, verboseFeedback: getVerboseFeedback(response.feedback) });
+          setResult(response);
+        });
+      };
+      if (!props.disablePwnd) {
+        timeout = setTimeout(run, props.debounceTime ?? 300);
+      } else {
+        run();
+      }
+      return () => {
+        if (timeout) clearTimeout(timeout);
+      };
+    }, [deferredPassword, props.disablePwnd, props.debounceTime]);
 
     return result;
   };
