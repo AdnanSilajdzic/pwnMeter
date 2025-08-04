@@ -10,6 +10,10 @@ const PasswordTooltip = (props: propsTypes) => {
   const handleClickOutside = (event: MouseEvent) => {
     const tooltip = document.getElementById("tooltip");
     if (tooltip && !tooltip.contains(event.target as Node)) {
+      const target = event.target as Element;
+      if (target.id === "suggestions-icon") {
+        return;
+      }
       props.close();
     }
   };

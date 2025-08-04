@@ -46,6 +46,7 @@ const PwnMeter = (props: propsTypes) => {
             src={informationCircleIcon}
             className="pwn-information-icon"
             alt="suggestions"
+            id="suggestions-icon"
             title="suggestions"
             onClick={(e) => {
               e.stopPropagation();
